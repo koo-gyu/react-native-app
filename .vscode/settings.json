@@ -1,5 +1,7 @@
 {
   "prettier.enable": true,
   "prettier.endOfLine": "lf",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.configuration.updateBuildConfiguration": "interactive"
 }
