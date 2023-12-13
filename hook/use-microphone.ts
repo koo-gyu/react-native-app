@@ -1,15 +1,3 @@
-import AudioRecorderPlayer, {
-  AVEncoderAudioQualityIOSType,
-  AVEncodingOption,
-  AudioEncoderAndroidType,
-  AudioSourceAndroidType,
-  OutputFormatAndroidType,
-} from 'react-native-audio-recorder-player';
-import type {
-  AudioSet,
-  PlayBackType,
-  RecordBackType,
-} from 'react-native-audio-recorder-player';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import {PermissionsAndroid, Platform} from 'react-native';
@@ -19,7 +7,7 @@ function saveURIIntoStorage(uri: string) {}
 
 export function useMicrophone() {
   const [isRecording, setIsRecording] = useState(false);
-  const playerRef = useRef(new AudioRecorderPlayer());
+  // const playerRef = useRef(new AudioRecorderPlayer());
 
   return {
     async processPermission() {
@@ -57,41 +45,9 @@ export function useMicrophone() {
     },
     async startRecord() {
       setIsRecording(true);
-
-      const audioSet: AudioSet = {
-        AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
-        AudioSourceAndroid: AudioSourceAndroidType.MIC,
-        AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
-        AVNumberOfChannelsKeyIOS: 2,
-        AVFormatIDKeyIOS: AVEncodingOption.aac,
-        OutputFormatAndroid: OutputFormatAndroidType.AAC_ADTS,
-      };
-
-      console.log('audioSet', audioSet);
-
-      const uri = await playerRef.current.startRecorder(
-        `${RNFetchBlob.fs.dirs.DownloadDir}/hello.mp4`,
-        audioSet,
-      );
-
-      playerRef.current.addRecordBackListener((e: RecordBackType) => {
-        // console.log('record-back', e);
-        console.log(
-          e.currentPosition,
-          playerRef.current.mmssss(Math.floor(e.currentPosition)),
-        );
-      });
-      console.log(`uri: ${uri}`);
-
-      saveURIIntoStorage(uri);
     },
     async stopRecord() {
       setIsRecording(false);
-
-      const result = await playerRef.current.stopRecorder();
-      playerRef.current.removeRecordBackListener();
-
-      console.log(result);
     },
     get isRecording() {
       return isRecording;
